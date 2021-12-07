@@ -4,6 +4,32 @@ const toDoList = JSON.parse(localStorage.getItem("toDoList"))
 const toDoContainer = document.getElementById('todos-list')
 const checkInputs = toDoContainer.getElementsByTagName("input")
 const btnRemoveAllContainer = document.getElementById("btn-remove")
+const filter = document.getElementById('todo-filter')
+
+
+filter.addEventListener('change', function (e) {
+  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  if (toDoList) {
+    let updToDos = []
+    switch (e.target.value) {
+      case "done":
+        updToDos = toDoList.filter(toDo => toDo.done === true)
+        break
+      case "notDone":
+        updToDos = toDoList.filter(toDo => toDo.done !== true)
+        break
+      default:
+        updToDos = toDoList
+    }
+    const activeToDoList = Array.from(toDoContainer.querySelectorAll("div"))
+    for (let i = 0; i < activeToDoList.length; i++) {
+      activeToDoList[i].remove()
+    }
+    updToDos.map((toDo, i) => {
+      addToDoElement(toDo, i)
+    })
+  }
+})
 // Функция для добавления to do элемента
 function addToDoElement(toDo, i) {
   const block = document.createElement("div");
@@ -114,8 +140,9 @@ function deleteToDo(id) {
   if (updToDos.length !== 0) {
     localStorage.setItem("toDoList", JSON.stringify(updToDos))
   } else {
-    localStorage.clear()
+    document.getElementById("deleteAllButton").remove()
     createEmptyMessage()
+    localStorage.clear()
   }
 }
 
@@ -143,7 +170,7 @@ function closeEditingWindow(id, el) {
   parent.replaceChild(p, input)
 }
 
-function deleteAllToDo(button) {
+function deleteAllToDo() {
   const toDoList = Array.from(toDoContainer.querySelectorAll("div"))
   for (let i = 0; i < toDoList.length; i++) {
     setTimeout(function () {
