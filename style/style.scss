@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import './variables/colors';
+
+body {
+  font-family: 'Montserrat', 'sans-serif';
+  background: $background-color;
+  color: $font-color;
+}
+
+h1, h2, h3 {
+  color: $header-color;
+}
+
+.container {
+  max-width: 1170px;
+  margin: auto;
+  padding: 0 10px;
+  text-align: center;
+}
