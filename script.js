@@ -23,17 +23,20 @@ function addToDoElement(toDo, i) {
   toDoContainer.appendChild(block)
 }
 
-if (toDoList) {
-  toDoList?.map((toDo, i) => {
-    addToDoElement(toDo, i)
-  })
-} else {
+function createEmtyMessage() {
   const block = document.createElement("div");
   block.id = "emptyMessage"
   const p = document.createElement("p")
   p.innerText = "У вас нет запланированных дел, добавьте их"
   block.appendChild(p)
   toDoContainer.appendChild(block)
+}
+if (toDoList) {
+  toDoList?.map((toDo, i) => {
+    addToDoElement(toDo, i)
+  })
+} else {
+  createEmtyMessage()
 }
 
 function generateId() {
@@ -88,6 +91,19 @@ function changeStatusDone(id) {
   localStorage.setItem("toDoList", JSON.stringify(updToDos))
 }
 
+function deleteToDo(id) {
+  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  const updToDos = toDoList.filter(toDo => toDo._id != id)
+  const deletedToDo = document.getElementById(id)
+  deletedToDo?.remove()
+  if (updToDos.length !== 0) {
+    localStorage.setItem("toDoList", JSON.stringify(updToDos))
+  } else {
+    localStorage.clear()
+    createEmtyMessage()
+  }
+}
+
 toDoContainer.addEventListener('click', function (e) {
   const nodeName = e.target.nodeName
   const parent = e.target.closest("div")
@@ -95,5 +111,9 @@ toDoContainer.addEventListener('click', function (e) {
   switch (nodeName) {
     case "INPUT":
       changeStatusDone(parent.id)
+      break
+    case "BUTTON":
+      deleteToDo(parent.id)
+      break
   }
 })
