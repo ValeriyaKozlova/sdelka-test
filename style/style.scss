@@ -17,3 +17,12 @@ h1, h2, h3 {
   padding: 0 10px;
   text-align: center;
 }
+
+.app {
+  #todos-list {
+    .toDoWrapper {
+      display: grid;
+      grid-template-columns: 1fr 4fr 1fr 1fr;
+    }
+  }
+}
