@@ -3,8 +3,7 @@ const buttonSubmit = document.getElementById('addToDoSubmit')
 const toDoList = JSON.parse(localStorage.getItem("toDoList"))
 const toDoContainer = document.getElementById('todos-list')
 const checkInputs = toDoContainer.getElementsByTagName("input")
-
-console.log(checkInputs)
+const btnRemoveAllContainer = document.getElementById("btn-remove")
 // Функция для добавления to do элемента
 function addToDoElement(toDo, i) {
   const block = document.createElement("div");
@@ -34,12 +33,22 @@ function createEmptyMessage() {
   toDoContainer.appendChild(block)
 }
 
+function createButtonDeleteAll() {
+  const button = document.createElement("button")
+  button.setAttribute("type", "submit")
+  button.setAttribute("id", "deleteAllButton")
+  button.innerText = "Удалить все"
+  button.addEventListener('click', deleteAllToDo)
+  btnRemoveAllContainer.append(button)
+}
+
 if (toDoList) {
   toDoList?.map((toDo, i) => {
     addToDoElement(toDo, i)
   })
+  createButtonDeleteAll()
 } else {
-  p()
+  createEmptyMessage()
 }
 
 function generateId() {
@@ -78,6 +87,8 @@ function addToDo() {
       const newToDo = { _id: generateId(), content: newToDoValue, done: false }
       localStorage.setItem("toDoList", JSON.stringify([newToDo]))
       addToDoElement(newToDo, 0)
+      createButtonDeleteAll()
+
     }
     inputAddToDo.value = ""
   } else {
@@ -130,6 +141,18 @@ function closeEditingWindow(id, el) {
   })
   localStorage.setItem("toDoList", JSON.stringify(updToDos))
   parent.replaceChild(p, input)
+}
+
+function deleteAllToDo(button) {
+  const toDoList = Array.from(toDoContainer.querySelectorAll("div"))
+  for (let i = 0; i < toDoList.length; i++) {
+    setTimeout(function () {
+      toDoList[i].remove()
+    }, i * 100)
+  }
+  localStorage.clear()
+  document.getElementById("deleteAllButton").remove()
+  createEmptyMessage()
 }
 
 toDoContainer.addEventListener('click', function (e) {
