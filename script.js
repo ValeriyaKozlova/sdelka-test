@@ -16,14 +16,16 @@ function addToDoElement(toDo, i) {
   check.checked = toDo.done
   const span = document.createElement("span")
   span.innerText = (i + 1)
+  const img = document.createElement("img")
+  img.setAttribute("src", "./src/img/edit.png")
   const button = document.createElement("button")
   button.innerText = "Удалить"
   block.className = "toDoWrapper"
-  block.append(span, p, check, button)
+  block.append(span, p, check, img, button)
   toDoContainer.appendChild(block)
 }
 
-function createEmtyMessage() {
+function createEmptyMessage() {
   const block = document.createElement("div");
   block.id = "emptyMessage"
   const p = document.createElement("p")
@@ -31,17 +33,19 @@ function createEmtyMessage() {
   block.appendChild(p)
   toDoContainer.appendChild(block)
 }
+
 if (toDoList) {
   toDoList?.map((toDo, i) => {
     addToDoElement(toDo, i)
   })
 } else {
-  createEmtyMessage()
+  p()
 }
 
 function generateId() {
-  return Math.floor(Math.random() * 100)
+  return new Date().getTime()
 }
+
 function addToDo() {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   const newToDoValue = inputAddToDo.value.replace(/\s+/g, ' ').trim()
@@ -100,20 +104,52 @@ function deleteToDo(id) {
     localStorage.setItem("toDoList", JSON.stringify(updToDos))
   } else {
     localStorage.clear()
-    createEmtyMessage()
+    createEmptyMessage()
   }
+}
+
+function openEditingWindow(id, el) {
+  el.className = "editing"
+  const parent = document.getElementById(id)
+  const p = parent.querySelector("p")
+  const input = document.createElement("input")
+  input.setAttribute("type", "text")
+  input.setAttribute("value", p.innerText)
+  parent.replaceChild(input, p)
+}
+
+function closeEditingWindow(id, el) {
+  el.classList.remove("editing")
+  const parent = document.getElementById(id)
+  const input = parent.querySelector("input")
+  const p = document.createElement("p")
+  p.innerText = input.value
+  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  const updToDos = toDoList.map(toDo => {
+    return toDo._id == id ? { ...toDo, content: input.value } : toDo
+  })
+  localStorage.setItem("toDoList", JSON.stringify(updToDos))
+  parent.replaceChild(p, input)
 }
 
 toDoContainer.addEventListener('click', function (e) {
   const nodeName = e.target.nodeName
   const parent = e.target.closest("div")
-  console.log(nodeName)
   switch (nodeName) {
     case "INPUT":
-      changeStatusDone(parent.id)
+      if (e.target.type === "checkbox") {
+        changeStatusDone(parent.id)
+      }
       break
     case "BUTTON":
       deleteToDo(parent.id)
+      break
+    case "IMG":
+      if (e.target.className === "editing") {
+        closeEditingWindow(parent.id, e.target)
+      } else {
+        openEditingWindow(parent.id, e.target)
+      }
       break
   }
 })

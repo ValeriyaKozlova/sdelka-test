@@ -19,7 +19,11 @@ h1, h2, h3 {
 .app #todos-list .toDoWrapper {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 4fr 1fr 1fr;
-      grid-template-columns: 1fr 4fr 1fr 1fr;
+  -ms-grid-columns: 1fr 4fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
+}
+
+.app #todos-list .toDoWrapper img {
+  width: 30px;
 }
 /*# sourceMappingURL=style.css.map */
