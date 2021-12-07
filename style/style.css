@@ -16,14 +16,14 @@ h1, h2, h3 {
   text-align: center;
 }
 
-.app #todos-list .toDoWrapper {
+.app #todos-list .toDoWrapper div {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 4fr 1fr 1fr 1fr;
-      grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
+  -ms-grid-columns: 4fr 1fr 1fr 1fr;
+      grid-template-columns: 4fr 1fr 1fr 1fr;
 }
 
-.app #todos-list .toDoWrapper img {
+.app #todos-list .toDoWrapper div img {
   width: 30px;
 }
 /*# sourceMappingURL=style.css.map */

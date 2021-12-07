@@ -21,11 +21,14 @@ h1, h2, h3 {
 .app {
   #todos-list {
     .toDoWrapper {
-      display: grid;
-      grid-template-columns: 1fr 4fr 1fr 1fr 1fr;
-      img {
-        width: 30px;
+      div {
+        display: grid;
+        grid-template-columns: 4fr 1fr 1fr 1fr;
+        img {
+          width: 30px;
+        }
       }
+
     }
   }
 }

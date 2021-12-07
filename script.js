@@ -32,8 +32,9 @@ filter.addEventListener('change', function (e) {
 })
 // Функция для добавления to do элемента
 function addToDoElement(toDo, i) {
-  const block = document.createElement("div");
+  const block = document.createElement("li");
   block.id = toDo._id
+  block.setAttribute("draggable", true)
   const p = document.createElement("p")
   p.innerText = toDo.content
   const check = document.createElement("input")
@@ -130,6 +131,7 @@ function changeStatusDone(id) {
     return toDo._id == id ? { ...toDo, done: !toDo.done } : toDo
   })
   localStorage.setItem("toDoList", JSON.stringify(updToDos))
+  console.log(updToDos)
 }
 
 function deleteToDo(id) {
@@ -171,7 +173,7 @@ function closeEditingWindow(id, el) {
 }
 
 function deleteAllToDo() {
-  const toDoList = Array.from(toDoContainer.querySelectorAll("div"))
+  const toDoList = Array.from(toDoContainer.querySelectorAll("li"))
   for (let i = 0; i < toDoList.length; i++) {
     setTimeout(function () {
       toDoList[i].remove()
@@ -184,7 +186,7 @@ function deleteAllToDo() {
 
 toDoContainer.addEventListener('click', function (e) {
   const nodeName = e.target.nodeName
-  const parent = e.target.closest("div")
+  const parent = e.target.closest("li")
   switch (nodeName) {
     case "INPUT":
       if (e.target.type === "checkbox") {
@@ -203,3 +205,47 @@ toDoContainer.addEventListener('click', function (e) {
       break
   }
 })
+
+
+toDoContainer.addEventListener("dragstart", (e) => {
+  e.target.classList.add("selected")
+})
+
+toDoContainer.addEventListener("dragend", (e) => {
+  e.target.classList.remove("selected")
+  const toDoList = Array.from(toDoContainer.querySelectorAll("li"))
+  const toDoListlocal = JSON.parse(localStorage.getItem("toDoList"))
+  let updToDos = []
+  for (let i = 0; i < toDoList.length; i++) {
+    toDoList[i].querySelector('span').innerText = i + 1
+    toDoListlocal.forEach(toDo => {
+      if (toDo._id == toDoList[i].id) {
+        updToDos.push(toDo)
+      }
+    })
+  }
+  localStorage.setItem("toDoList", JSON.stringify(updToDos))
+})
+
+toDoContainer.addEventListener("dragover", (e) => {
+  e.preventDefault()
+  const activeEl = toDoContainer.querySelector(".selected");
+  const currentEl = e.target;
+  const isMoveable = activeEl !== currentEl && currentEl.classList.contains('toDoWrapper')
+  if (!isMoveable) {
+    return
+  }
+
+  const nextEl = getNextElement(e.clientY, currentEl)
+  if (nextEl && activeEl === nextEl.previosElementSibling || activeEl === nextEl) {
+    return
+  }
+  toDoContainer.insertBefore(activeEl, nextEl)
+})
+
+const getNextElement = (cursorPosition, currentEl) => {
+  const currentElCoord = currentEl.getBoundingClientRect();
+  const currentElCenter = currentElCoord.y + currentElCoord.height / 2
+  const nextEl = (cursorPosition < currentElCenter) ? currentEl : currentEl.nextElementSibling;
+  return nextEl
+}
