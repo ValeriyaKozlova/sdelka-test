@@ -2,10 +2,13 @@ const inputAddToDo = document.getElementById('addToDo')
 const buttonSubmit = document.getElementById('addToDoSubmit')
 const toDoList = JSON.parse(localStorage.getItem("toDoList"))
 const toDoContainer = document.getElementById('todos-list')
+const checkInputs = toDoContainer.getElementsByTagName("input")
 
+console.log(checkInputs)
 // Функция для добавления to do элемента
 function addToDoElement(toDo, i) {
   const block = document.createElement("div");
+  block.id = toDo._id
   const p = document.createElement("p")
   p.innerText = toDo.content
   const check = document.createElement("input")
@@ -33,6 +36,9 @@ if (toDoList) {
   toDoContainer.appendChild(block)
 }
 
+function generateId() {
+  return Math.floor(Math.random() * 100)
+}
 function addToDo() {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   const newToDoValue = inputAddToDo.value.replace(/\s+/g, ' ').trim()
@@ -49,7 +55,7 @@ function addToDo() {
       // Добавление to do
       if (!isRepeat) {
         const len = toDoList.length
-        const newToDo = { id: len + 1, content: newToDoValue, done: false }
+        const newToDo = { _id: generateId(), content: newToDoValue, done: false }
         toDoList.push(newToDo)
         localStorage.setItem("toDoList", JSON.stringify(toDoList))
         addToDoElement(newToDo, len)
@@ -62,7 +68,7 @@ function addToDo() {
       if (emptyMessage) {
         emptyMessage.remove()
       }
-      const newToDo = { id: 1, content: newToDoValue, done: false }
+      const newToDo = { _id: generateId(), content: newToDoValue, done: false }
       localStorage.setItem("toDoList", JSON.stringify([newToDo]))
       addToDoElement(newToDo, 0)
     }
@@ -73,3 +79,21 @@ function addToDo() {
 }
 
 buttonSubmit.addEventListener('click', addToDo)
+
+function changeStatusDone(id) {
+  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  const updToDos = toDoList.map(toDo => {
+    return toDo._id == id ? { ...toDo, done: !toDo.done } : toDo
+  })
+  localStorage.setItem("toDoList", JSON.stringify(updToDos))
+}
+
+toDoContainer.addEventListener('click', function (e) {
+  const nodeName = e.target.nodeName
+  const parent = e.target.closest("div")
+  console.log(nodeName)
+  switch (nodeName) {
+    case "INPUT":
+      changeStatusDone(parent.id)
+  }
+})
