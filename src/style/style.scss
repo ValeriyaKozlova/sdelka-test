@@ -5,13 +5,13 @@ body {
   font-family: 'Montserrat', 'sans-serif';
   background: $white-color;
   color: $font-color;
-  min-height: 100vh;
   margin: 0;
 }
-
+main {
+  min-height: 70vh;
+}
 h1,
 h2 {
-  color: $white-color;
   margin: 15px;
 }
 
@@ -21,9 +21,41 @@ h1 {
 h2 {
   margin-top: 0;
 }
+footer,
+header {
+  padding: 30px 15px;
+}
 header {
   background: $gradient;
-  padding: 30px 15px;
+  color: $white-color;
+}
+footer {
+  padding: 0;
+  background: none;
+  color: $font-color;
+  & .container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    text-align: right;
+    ol {
+      padding-left: 0;
+      margin-left: 17px;
+    }
+    h2 {
+      margin-left: 0;
+      text-align: left;
+    }
+    h2,
+    li {
+      text-align: left;
+      font-size: 0.8em;
+    }
+    p {
+      margin: 5px;
+      font-size: 0.8em;
+    }
+  }
 }
 button {
   height: 40px;
@@ -46,7 +78,9 @@ input {
     outline: none;
   }
   &:-webkit-autofill {
-    background: transparent;
+    box-shadow: inset 0 0 0 50px $white-color !important;
+    -webkit-text-fill-color: $font-color !important;
+    color: $font-color !important;
   }
 }
 .container {
@@ -73,5 +107,19 @@ input {
   }
   header {
     padding: 20px 10px;
+  }
+  footer {
+    & .container {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      p,
+      h2 {
+        text-align: center;
+      }
+      li {
+        text-align: left;
+      }
+    }
   }
 }

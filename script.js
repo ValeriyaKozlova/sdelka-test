@@ -182,11 +182,12 @@ function createEmptyMessage() {
 toDoContainer.addEventListener('click', function (e) {
   const nodeName = e.target.nodeName
   const parent = e.target.closest("li")
+  console.log(nodeName)
   switch (nodeName) {
     case "LABEL":
       changeStatusDone(parent.id, e.target.className)
       break
-    case "BUTTON":
+    case "IMG":
       deleteToDo(parent.id)
       break
     case "INPUT":

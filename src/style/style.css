@@ -3,13 +3,15 @@ body {
   font-family: 'Montserrat', 'sans-serif';
   background: #fff;
   color: #560238;
-  min-height: 100vh;
   margin: 0;
+}
+
+main {
+  min-height: 70vh;
 }
 
 h1,
 h2 {
-  color: #fff;
   margin: 15px;
 }
 
@@ -21,9 +23,54 @@ h2 {
   margin-top: 0;
 }
 
+footer,
+header {
+  padding: 30px 15px;
+}
+
 header {
   background: linear-gradient(124deg, #ff4dbb 0%, #e6008e 100%);
-  padding: 30px 15px;
+  color: #fff;
+}
+
+footer {
+  padding: 0;
+  background: none;
+  color: #560238;
+}
+
+footer .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: right;
+}
+
+footer .container ol {
+  padding-left: 0;
+  margin-left: 17px;
+}
+
+footer .container h2 {
+  margin-left: 0;
+  text-align: left;
+}
+
+footer .container h2,
+footer .container li {
+  text-align: left;
+  font-size: 0.8em;
+}
+
+footer .container p {
+  margin: 5px;
+  font-size: 0.8em;
 }
 
 button {
@@ -57,7 +104,10 @@ input:focus {
 }
 
 input:-webkit-autofill {
-  background: transparent;
+  -webkit-box-shadow: inset 0 0 0 50px #fff !important;
+          box-shadow: inset 0 0 0 50px #fff !important;
+  -webkit-text-fill-color: #560238 !important;
+  color: #560238 !important;
 }
 
 .container {
@@ -219,11 +269,11 @@ input:-webkit-autofill {
 
 #todos-list .toDoWrapper button {
   margin: auto;
-  padding: 20px;
   cursor: pointer;
 }
 
 #todos-list .toDoWrapper button img {
+  padding: 20px;
   width: 20px;
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
@@ -362,6 +412,25 @@ input:-webkit-autofill {
   }
   header {
     padding: 20px 10px;
+  }
+  footer .container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  footer .container p,
+  footer .container h2 {
+    text-align: center;
+  }
+  footer .container li {
+    text-align: left;
   }
 }
 /*# sourceMappingURL=style.css.map */
