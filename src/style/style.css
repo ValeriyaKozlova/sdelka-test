@@ -127,12 +127,12 @@ input:-webkit-autofill {
   padding: 15px 0;
 }
 
-.progressBar div {
+.progressBar > div {
   border: 1px solid #faeefa;
   border-radius: '4px';
 }
 
-.progressBar div div {
+.progressBar > div div {
   height: 4px;
   background: linear-gradient(124deg, #66ff00 0%, limegreen 100%);
   -webkit-transition: all 0.2s;
@@ -152,7 +152,9 @@ input:-webkit-autofill {
   color: #560238;
   padding: 10px;
   outline: none;
+  border-bottom: 1px solid #d281b5;
   -webkit-appearance: none;
+  -webkit-border-radius: 0px;
 }
 
 .formContainer #todo-filter:focus {
@@ -211,7 +213,6 @@ input:-webkit-autofill {
             flex-direction: column-reverse;
   }
   .formContainer #todo-filter {
-    border-bottom: 1px solid #d281b5;
     margin-bottom: 10px;
   }
   .formContainer .form {
