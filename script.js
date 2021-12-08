@@ -11,6 +11,7 @@ const bar = document.getElementById('bar')
 const buttonDeleteAll = document.getElementById("buttonDeleteAll")
 const buttonCheckAll = document.getElementById("buttonCheckAll")
 const btnContainer = document.getElementById("btn-container")
+const emptyMessage = document.getElementById("emptyMessage")
 
 // First check if there are some tods in the local storage
 if (toDoList) {
@@ -60,9 +61,9 @@ function addToDo(e) {
       }
     } else {
       // Delete message 
-      const emptyMessage = document.getElementById('emptyMessage')
-      if (emptyMessage) {
-        emptyMessage.remove()
+      const p = emptyMessage.querySelector('p')
+      if (p) {
+        p.remove()
       }
       const newToDo = { _id: generateId(), content: newToDoValue, done: false }
       localStorage.setItem("toDoList", JSON.stringify([newToDo]))
@@ -169,12 +170,9 @@ function filterTodo(value) {
 
 // Add message element if there is no any todos
 function createEmptyMessage() {
-  const block = document.createElement("div");
-  block.id = "emptyMessage"
   const p = document.createElement("p")
   p.innerText = "У вас нет запланированных дел, добавьте их"
-  block.appendChild(p)
-  toDoContainer.appendChild(block)
+  emptyMessage.appendChild(p)
 }
 
 // TODO INTERACTION FUNCTIONS
@@ -343,6 +341,7 @@ function openModalWindow(message) {
   const background = document.createElement("div")
   background.classList.add("background")
   background.addEventListener('click', closeModalWindow)
+  background.addEventListener('touchstart', closeModalWindow)
   const wrapper = document.createElement("div")
   wrapper.classList.add("wrapper")
   const p = document.createElement("p")
