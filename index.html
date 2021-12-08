@@ -10,62 +10,61 @@
   <link href="src/style/style.css" rel="stylesheet" type="text/css">
   </link>
   <script async src="script.js"></script>
-  <title>To do app</title>
+  <title>Todo app</title>
 </head>
-<header>
-  <div class="container">
-    <h1>To do app</h1>
-    <h2>Запиши и сделай</h2>
-  </div>
-
-</header>
-<main>
-  <section>
-    <div class="container app">
-      <div id="progressBar" class="progressBar">
-        <p id="progressMessage" class="d-none"></p>
-        <div>
-          <div id="bar" class="d-none"></div>
-        </div>
-      </div>
-      <div class="formContainer">
-        <form class="form">
-          <input placeholder="Ведите дело" type="text" id="addToDo" />
-          <button type="submit" id="addToDoSubmit"><img src="./src/img/add.svg" alt="add logo" /></button>
-        </form>
-        <select id="todo-filter">
-          <option value="all">Все</option>
-          <option value="notDone">Не выполненные</option>
-          <option value="done">Выполненные</option>
-        </select>
-      </div>
-      <ol id="todos-list"></ol>
-      <div id="btn-container" class="d-none">
-        <button type="submit" id="buttonCheckAll">Отметь все как выполненные</button>
-        <button type="submit" id="buttonDeleteAll">Удалить все</button>
-      </div>
-    </div>
-  </section>
-</main>
-<footer>
-  <div class="container">
-    <div>
-      <h2>В этом приложении вы можете:</h2>
-      <ol>
-        <li>Создавать, редактировать, удалять задачи.</li>
-        <li>Отмечать выполненные задачи.</li>
-        <li>Менять порядок задач.</li>
-      </ol>
-    </div>
-    <div>
-      <p>Valeriya Kozlova</p>
-      <p>© All rights reserved</p>
-      <p>2021</p>
-    </div>
-  </div>
-</footer>
 
 <body>
+  <header>
+    <div class="container">
+      <h1>To do app</h1>
+      <h2>Запиши и сделай</h2>
+    </div>
+  </header>
+  <main>
+    <section>
+      <div class="container app">
+        <div id="progressBar" class="progressBar">
+          <p id="progressMessage" class="d-none"></p>
+          <div>
+            <div id="bar" class="d-none"></div>
+          </div>
+        </div>
+        <div class="formContainer">
+          <form class="form">
+            <input placeholder="Ведите дело" type="text" id="addToDo" />
+            <button type="submit" id="addToDoSubmit"><img src="./src/img/add.svg" alt="add logo" /></button>
+          </form>
+          <select id="todo-filter">
+            <option value="all">Все</option>
+            <option value="notDone">Не выполненные</option>
+            <option value="done">Выполненные</option>
+          </select>
+        </div>
+        <ol id="todos-list"></ol>
+        <div id="btn-container" class="d-none">
+          <button type="submit" id="buttonCheckAll">Отметь все как выполненные</button>
+          <button type="submit" id="buttonDeleteAll">Удалить все</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <div>
+        <h2>В этом приложении вы можете:</h2>
+        <ol>
+          <li>Создавать, редактировать, удалять задачи.</li>
+          <li>Отмечать выполненные задачи.</li>
+          <li>Менять порядок задач только в desktop версии.</li>
+        </ol>
+      </div>
+      <div>
+        <p>Valeriya Kozlova</p>
+        <p>© All rights reserved</p>
+        <p>2021</p>
+      </div>
+    </div>
+  </footer>
 
 </body>
 

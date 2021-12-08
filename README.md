@@ -9,6 +9,6 @@ Using the app, you can:
 
 1. Create, edit, delete todos.
 2. Change a todo status (completed/uncompleted).
-3. Swap todos.
+3. Swap todos (only desktop version).
 
 You can visite the result [here ](https://valeriyakozlova.github.io/sdelka-test/)

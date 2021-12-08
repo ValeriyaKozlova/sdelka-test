@@ -56,7 +56,7 @@ function addToDo(e) {
         setProgressBar()
         checkUnDoneTodo()
       } else {
-        alert('Такая задача уже есть в вашем списке')
+        openModalWindow('Такая задача уже есть в вашем списке')
       }
     } else {
       // Delete message 
@@ -73,7 +73,7 @@ function addToDo(e) {
     }
     inputAddToDo.value = ""
   } else {
-    alert('упс, похоже вы забыли добавить вашу задачу')
+    openModalWindow('упс, похоже вы забыли добавить вашу задачу')
   }
 }
 
@@ -332,4 +332,31 @@ const getNextElement = (cursorPosition, currentEl) => {
   const currentElCenter = currentElCoord.y + currentElCoord.height / 2
   const nextEl = (cursorPosition < currentElCenter) ? currentEl : currentEl.nextElementSibling;
   return nextEl
+}
+
+// Open modal window
+function openModalWindow(message) {
+  document.body.style.overflow = "hidden"
+  const section = document.querySelector("section")
+  const popup = document.createElement("div")
+  popup.setAttribute("id", "popup")
+  const background = document.createElement("div")
+  background.classList.add("background")
+  background.addEventListener('click', closeModalWindow)
+  const wrapper = document.createElement("div")
+  wrapper.classList.add("wrapper")
+  const p = document.createElement("p")
+  p.innerText = message
+  const button = document.createElement("button")
+  button.addEventListener('click', closeModalWindow)
+  button.innerText = "Закрыть"
+  wrapper.append(p, button)
+  popup.append(background, wrapper)
+  section.append(popup)
+}
+
+// Close modal window
+function closeModalWindow() {
+  document.body.style.overflow = "visible"
+  document.getElementById('popup').remove()
 }
