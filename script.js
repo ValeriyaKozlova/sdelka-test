@@ -341,7 +341,6 @@ function openModalWindow(message) {
   const background = document.createElement("div")
   background.classList.add("background")
   background.addEventListener('click', closeModalWindow)
-  background.addEventListener('touchstart', closeModalWindow)
   const wrapper = document.createElement("div")
   wrapper.classList.add("wrapper")
   const p = document.createElement("p")
