@@ -152,6 +152,7 @@ input:-webkit-autofill {
   color: #560238;
   padding: 10px;
   outline: none;
+  -webkit-appearance: none;
 }
 
 .formContainer #todo-filter:focus {
