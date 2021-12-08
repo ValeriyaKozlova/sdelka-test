@@ -54,6 +54,7 @@ function addToDo(e) {
         localStorage.setItem("toDoList", JSON.stringify(toDoList))
         addToDoElement(newToDo, len)
         setProgressBar()
+        checkUnDoneTodo()
       } else {
         alert('Такая задача уже есть в вашем списке')
       }
@@ -68,6 +69,7 @@ function addToDo(e) {
       addToDoElement(newToDo, 0)
       btnContainer.classList.remove("d-none")
       setProgressBar()
+
     }
     inputAddToDo.value = ""
   } else {
@@ -124,11 +126,14 @@ function setProgressBar() {
 }
 
 // Filter todos: all - done - undone
-filter.addEventListener('change', function (e) {
+filter.addEventListener('change', e => filterTodo(e.target.value))
+
+function filterTodo(value) {
+  ("filter")
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   if (toDoList) {
     let updToDos = []
-    switch (e.target.value) {
+    switch (value) {
       case "done":
         updToDos = toDoList.filter(toDo => toDo.done === true)
         break
@@ -142,21 +147,25 @@ filter.addEventListener('change', function (e) {
     for (let i = 0; i < activeToDoList.length; i++) {
       activeToDoList[i].remove()
     }
-    console.log(updToDos)
+
     if (updToDos.length) {
       document.getElementById("noTasksMessage")?.remove()
       updToDos.map((toDo, i) => {
         addToDoElement(toDo, i)
       })
+      if (btnContainer.classList.contains("d-none")) {
+        btnContainer.classList.remove("d-none")
+      }
     } else {
-      const type = e.target.value === "done" ? "выполненных" : "невыполненных"
+      const type = value === "done" ? "выполненных" : "невыполненных"
       const p = document.createElement("p")
       p.setAttribute("id", "noTasksMessage")
       p.innerText = `У вас нет ${type} задач`
       toDoContainer.append(p)
+      btnContainer.classList.add("d-none")
     }
   }
-})
+}
 
 // Add message element if there is no any todos
 function createEmptyMessage() {
@@ -189,7 +198,7 @@ toDoContainer.addEventListener('click', function (e) {
 })
 
 // Toggle done - undone status
-function changeStatusDone(id, className) {
+function changeStatusDone(id) {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   const parent = document.getElementById(id)
   const updToDos = toDoList.map(toDo => {
@@ -202,6 +211,10 @@ function changeStatusDone(id, className) {
   localStorage.setItem("toDoList", JSON.stringify(updToDos))
   setProgressBar()
   checkUnDoneTodo()
+  if (filter.value !== "all") {
+    filterTodo(filter.value)
+  }
+
 }
 
 // Delete one selected todo
@@ -224,7 +237,7 @@ function deleteToDo(id) {
 
 // Edit todo
 function editToDo(id, el) {
-  el.addEventListener('blur', function (e) {
+  el.addEventListener('keyup', function () {
     const toDoList = JSON.parse(localStorage.getItem("toDoList"))
     const updToDos = toDoList.map(toDo => {
       return toDo._id == id ? { ...toDo, content: el.value } : toDo
@@ -262,6 +275,7 @@ function checkAllToDo() {
   }
   localStorage.setItem("toDoList", JSON.stringify(updToDos))
   buttonCheckAll.setAttribute("disabled", "disabled")
+  setProgressBar()
 }
 
 // Check if there is un done todos 
