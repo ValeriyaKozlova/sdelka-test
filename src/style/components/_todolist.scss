@@ -1,6 +1,7 @@
 #todos-list {
   padding-left: 0;
   .toDoWrapper {
+    overflow: hidden;
     display: grid;
     grid-template-columns: auto 1fr auto;
     grid-gap: 15px;
@@ -35,15 +36,15 @@
     button {
       margin: auto;
       cursor: pointer;
-      img {
-        padding: 20px;
-        width: 20px;
-        transform: rotate(45deg);
-        transition: all 0.2s;
-        &:hover {
-          filter: saturate(0.5);
-        }
+      // img {
+      padding: 20px;
+      width: 20px;
+      transform: rotate(45deg);
+      transition: all 0.2s;
+      &:hover {
+        filter: saturate(0.5);
       }
+      // }
     }
     &.undone {
       input {

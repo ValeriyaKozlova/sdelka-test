@@ -90,9 +90,9 @@ function addToDoElement(toDo, i) {
   check.setAttribute("type", "checkbox")
   label.append(check)
   const button = document.createElement("button")
-  const deleteSvg = document.createElement("img")
-  deleteSvg.setAttribute("src", "./src/img/add.svg")
-  button.append(deleteSvg)
+  button.style.backgroundImage = "url(./src/img/add.svg)"
+  button.style.backgroundRepeat = "no-repeat"
+  button.style.backgroundPosition = "center center"
   block.className = "toDoWrapper"
   block.classList.add(toDo.done ? "done" : "undone")
   block.append(label, input, button)
@@ -182,12 +182,11 @@ function createEmptyMessage() {
 toDoContainer.addEventListener('click', function (e) {
   const nodeName = e.target.nodeName
   const parent = e.target.closest("li")
-  console.log(nodeName)
   switch (nodeName) {
     case "LABEL":
       changeStatusDone(parent.id, e.target.className)
       break
-    case "IMG":
+    case "BUTTON":
       deleteToDo(parent.id)
       break
     case "INPUT":
