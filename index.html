@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="To do приложение для планирования дел">
+  <link href="style/normalize/normalize.scss" rel="stylesheet" type="text/css">
   <link href="style/style.css" rel="stylesheet" type="text/css">
   </link>
   <script async src="script.js"></script>
@@ -22,15 +23,15 @@
   <section>
     <div class="container app">
       <div id="progressBar" class="progressBar">
-        <p id="progressMessage"></p>
+        <p id="progressMessage" class="d-none"></p>
         <div>
-          <div id="bar"></div>
+          <div id="bar" class="d-none"></div>
         </div>
       </div>
       <div class="formContainer">
         <form class="form">
           <input placeholder="Ведите дело" type="text" id="addToDo" />
-          <button type="submit" id="addToDoSubmit">Добавить</button>
+          <button type="submit" id="addToDoSubmit"><img src="./src/img/add.svg" alt="add logo" /></button>
         </form>
         <select id="todo-filter">
           <option value="all">Все</option>
@@ -39,7 +40,10 @@
         </select>
       </div>
       <ol id="todos-list"></ol>
-      <div id="btn-remove"></div>
+      <div id="btn-remove">
+        <button type="submit" id="buttonCheckAll" class="d-none">Отметь все как выполненные</button>
+        <button type="submit" id="buttonDeleteAll" class="d-none">Удалить все</button>
+      </div>
     </div>
   </section>
 </main>

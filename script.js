@@ -8,6 +8,10 @@ const filter = document.getElementById('todo-filter')
 const progressBar = document.getElementById('progressBar')
 const progressMessage = document.getElementById('progressMessage')
 const bar = document.getElementById('bar')
+const buttonDeleteAll = document.getElementById("buttonDeleteAll")
+const buttonCheckAll = document.getElementById("buttonCheckAll")
+
+buttonDeleteAll.addEventListener('click', deleteAllToDo)
 
 function setProgressionWidth() {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
@@ -23,8 +27,9 @@ function setProgressionWidth() {
 }
 
 function setProgressBar() {
-  if (progressBar.classList.contains('d-none')) {
-    progressBar.classList.remove('d-none')
+  if (bar.classList.contains('d-none')) {
+    bar.classList.remove('d-none')
+    progressMessage.classList.remove('d-none')
   }
   const { barWidth, done, len } = setProgressionWidth()
   progressMessage.innerText = `Вы выполнили ${done} из ${len} задач`
@@ -79,7 +84,9 @@ function addToDoElement(toDo, i) {
   const img = document.createElement("img")
   img.setAttribute("src", "./src/img/edit.png")
   const button = document.createElement("button")
-  button.innerText = "Удалить"
+  const deleteSvg = document.createElement("img")
+  deleteSvg.setAttribute("src", "./src/img/add.svg")
+  button.append(deleteSvg)
   block.className = "toDoWrapper"
   block.append(span, p, check, img, button)
   toDoContainer.appendChild(block)
@@ -94,20 +101,12 @@ function createEmptyMessage() {
   toDoContainer.appendChild(block)
 }
 
-function createButtonDeleteAll() {
-  const button = document.createElement("button")
-  button.setAttribute("type", "submit")
-  button.setAttribute("id", "deleteAllButton")
-  button.innerText = "Удалить все"
-  button.addEventListener('click', deleteAllToDo)
-  btnRemoveAllContainer.append(button)
-}
-
 if (toDoList) {
   toDoList?.map((toDo, i) => {
     addToDoElement(toDo, i)
   })
-  createButtonDeleteAll()
+  buttonDeleteAll.classList.remove("d-none")
+  buttonCheckAll.classList.remove("d-none")
   setProgressBar()
 } else {
   createEmptyMessage()
@@ -151,7 +150,8 @@ function addToDo(e) {
       const newToDo = { _id: generateId(), content: newToDoValue, done: false }
       localStorage.setItem("toDoList", JSON.stringify([newToDo]))
       addToDoElement(newToDo, 0)
-      createButtonDeleteAll()
+      buttonDeleteAll.classList.remove("d-none")
+      buttonCheckAll.classList.remove("d-none")
       setProgressBar()
     }
     inputAddToDo.value = ""
@@ -180,10 +180,12 @@ function deleteToDo(id) {
     localStorage.setItem("toDoList", JSON.stringify(updToDos))
     setProgressBar()
   } else {
-    document.getElementById("deleteAllButton").remove()
+    buttonDeleteAll.classList.add("d-none")
+    buttonCheckAll.classList.add("d-none")
     createEmptyMessage()
     localStorage.clear()
-    progressBar.classList.add('d-none')
+    bar.classList.add('d-none')
+    progressMessage.classList.add('d-none')
   }
 }
 
@@ -219,8 +221,10 @@ function deleteAllToDo() {
     }, i * 100)
   }
   localStorage.clear()
-  document.getElementById("deleteAllButton").remove()
-  progressBar.classList.add('d-none')
+  buttonDeleteAll.classList.add("d-none")
+  buttonCheckAll.classList.add("d-none")
+  bar.classList.add('d-none')
+  progressMessage.classList.add('d-none')
   createEmptyMessage()
 }
 

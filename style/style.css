@@ -1,30 +1,47 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 body {
   font-family: 'Montserrat', 'sans-serif';
-  background: #f2ebe5;
-  color: #2b262d;
+  background: #fff;
+  color: #560238;
+  min-height: 100vh;
+  margin: 0;
 }
 
 h1,
 h2,
 h3 {
-  color: #9f496e;
+  color: #fff;
+}
+
+header {
+  background: linear-gradient(124deg, #ff4dbb 0%, #e6008e 100%);
+  padding: 15px;
 }
 
 button {
   height: 40px;
-  background: #9f496e;
+  background: transparent;
   border: none;
   border-radius: 4px;
-  color: #fff;
   cursor: pointer;
+  width: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 input {
   height: 30px;
   background: transparent;
   border: none;
-  border-bottom: 1px solid #647295;
 }
 
 input:focus {
@@ -38,17 +55,20 @@ input:focus {
   text-align: center;
 }
 
-.app .progressBar.d-none {
-  display: none;
+.app .progressBar {
+  min-height: 60px;
+  margin: 15px 0;
+  padding: 15px 0;
 }
 
 .app .progressBar div {
-  border: 1px solid #647295;
+  border: 1px solid #faeefa;
+  border-radius: '4px';
 }
 
 .app .progressBar div div {
   height: 4px;
-  background: #9f496e;
+  background: linear-gradient(124deg, #66ff00 0%, limegreen 100%);
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
@@ -65,10 +85,56 @@ input:focus {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  border-bottom: 1px solid #d281b5;
+  margin-right: 15px;
+  padding: 0px 15px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .app .formContainer form #addToDo {
-  width: 90%;
+  width: 85%;
+}
+
+.app .formContainer form #addToDoSubmit {
+  width: 40px;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: transparent;
+}
+
+.app .formContainer form #addToDoSubmit img {
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.app .formContainer form #addToDoSubmit img:hover {
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
+
+.app #todo-filter {
+  border: none;
+  color: #560238;
+  padding: 10px;
+  outline: none;
+}
+
+.app #todo-filter:focus {
+  outline: none;
+}
+
+.app #todo-filter option {
+  background: #32cd32;
 }
 
 .app #todos-list {
@@ -83,13 +149,86 @@ input:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  background: #faeefa;
+  margin: 10px 5px;
+  padding: 10px 15px;
+  border-radius: 4px;
 }
 
 .app #todos-list .toDoWrapper p {
   text-align-last: left;
+  margin: 0;
 }
 
 .app #todos-list .toDoWrapper img {
   width: 30px;
+}
+
+.app #todos-list .toDoWrapper input {
+  border-bottom: 1px solid #d281b5;
+}
+
+.app #todos-list .toDoWrapper button img {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.app #btn-remove {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.app #btn-remove button {
+  display: inline-block;
+  padding: 10px 15px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 10px 15px;
+  font-weight: 600;
+  background: white;
+  -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  -webkit-transition: color 300ms ease-in-out, -webkit-box-shadow 300ms ease-in-out;
+  transition: color 300ms ease-in-out, -webkit-box-shadow 300ms ease-in-out;
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out, -webkit-box-shadow 300ms ease-in-out;
+}
+
+.app #btn-remove button:hover {
+  color: #fff;
+}
+
+.app #btn-remove button.d-none {
+  display: none;
+}
+
+.app #btn-remove button#buttonCheckAll {
+  border: 1px solid #32cd32;
+  color: #32cd32;
+}
+
+.app #btn-remove button#buttonCheckAll:hover {
+  -webkit-box-shadow: 0 0 40px 40px #32cd32 inset;
+          box-shadow: 0 0 40px 40px #32cd32 inset;
+  color: #fff;
+}
+
+.app #btn-remove button#buttonDeleteAll {
+  border: 1px solid #560238;
+  color: #560238;
+}
+
+.app #btn-remove button#buttonDeleteAll:hover {
+  -webkit-box-shadow: 0 0 40px 40px #560238 inset;
+          box-shadow: 0 0 40px 40px #560238 inset;
+  color: #fff;
+}
+
+.d-none {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */

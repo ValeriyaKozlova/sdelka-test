@@ -3,30 +3,39 @@
 
 body {
   font-family: 'Montserrat', 'sans-serif';
-  background: $background-color;
+  background: $white-color;
   color: $font-color;
+  min-height: 100vh;
+  margin: 0;
 }
 
 h1,
 h2,
 h3 {
-  color: $header-color;
+  color: $white-color;
 }
 
+header {
+  background: $gradient;
+  padding: 15px;
+}
 button {
   height: 40px;
-  background: $header-color;
+  background: transparent;
   border: none;
   border-radius: 4px;
-  color: $white-color;
   cursor: pointer;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
 }
 
 input {
   height: 30px;
   background: transparent;
   border: none;
-  border-bottom: 1px solid $secondary-color;
   &:focus {
     outline: none;
   }
@@ -40,14 +49,15 @@ input {
 
 .app {
   .progressBar {
-    &.d-none {
-      display: none;
-    }
+    min-height: 60px;
+    margin: 15px 0;
+    padding: 15px 0;
     div {
-      border: 1px solid $secondary-color;
+      border: 1px solid $background-color;
+      border-radius: '4px';
       div {
         height: 4px;
-        background: $header-color;
+        background: $green-gradient;
         transition: all 0.2s;
       }
     }
@@ -58,24 +68,108 @@ input {
     grid-template-columns: 5fr 1fr;
     form {
       display: flex;
+      border-bottom: 1px solid $secondary-color;
+      margin-right: 15px;
+      padding: 0px 15px;
+      justify-content: space-between;
       #addToDo {
-        width: 90%;
+        width: 85%;
+      }
+      #addToDoSubmit {
+        width: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+        img {
+          transition: all 0.2s;
+          &:hover {
+            filter: invert(100%);
+          }
+        }
       }
     }
   }
 
+  #todo-filter {
+    border: none;
+    color: $font-color;
+    padding: 10px;
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+    option {
+      background: $green-color;
+    }
+  }
   #todos-list {
     padding-left: 0;
     .toDoWrapper {
       display: grid;
       grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
       align-items: center;
+      background: $background-color;
+      margin: 10px 5px;
+      padding: 10px 15px;
+      border-radius: 4px;
       p {
         text-align-last: left;
+        margin: 0;
       }
       img {
         width: 30px;
       }
+      input {
+        border-bottom: 1px solid $secondary-color;
+      }
+      button {
+        img {
+          transform: rotate(45deg);
+        }
+      }
     }
   }
+  #btn-remove {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      display: inline-block;
+      padding: 10px 15px;
+      width: fit-content;
+      margin: 10px 15px;
+      font-weight: 600;
+      background: white;
+      -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+      transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+      &:hover {
+        color: $white-color;
+      }
+      &.d-none {
+        display: none;
+      }
+      &#buttonCheckAll {
+        border: 1px solid $green-color;
+        color: $green-color;
+        &:hover {
+          box-shadow: 0 0 40px 40px $green-color inset;
+          color: $white-color;
+        }
+      }
+      &#buttonDeleteAll {
+        border: 1px solid $font-color;
+        color: $font-color;
+        &:hover {
+          box-shadow: 0 0 40px 40px $font-color inset;
+          color: $white-color;
+        }
+      }
+    }
+  }
+}
+
+.d-none {
+  display: none;
 }
