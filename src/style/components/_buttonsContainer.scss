@@ -1,0 +1,43 @@
+#btn-container {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    display: inline-block;
+    padding: 10px 15px;
+    width: fit-content;
+    margin: 10px 15px;
+    font-weight: 600;
+    background: white;
+    -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+    transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+    &:hover {
+      color: $white-color;
+    }
+    &.d-none {
+      display: none;
+    }
+    &#buttonCheckAll {
+      border: 1px solid $green-color;
+      color: $green-color;
+      &:hover {
+        box-shadow: 0 0 40px 40px $green-color inset;
+        color: $white-color;
+      }
+      &:disabled {
+        opacity: 0.5;
+        cursor: auto;
+      }
+    }
+    &#buttonDeleteAll {
+      border: 1px solid $font-color;
+      color: $font-color;
+      &:hover {
+        box-shadow: 0 0 40px 40px $font-color inset;
+        color: $white-color;
+      }
+    }
+  }
+  &.d-none {
+    display: none;
+  }
+}

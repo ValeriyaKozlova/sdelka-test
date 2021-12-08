@@ -1,0 +1,86 @@
+#todos-list {
+  padding-left: 0;
+  .toDoWrapper {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 15px;
+    align-items: center;
+    background: $background-color;
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+    img {
+      width: 30px;
+    }
+    input {
+      text-align-last: left;
+      margin: 0;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s 0s;
+    }
+    label {
+      cursor: pointer;
+      margin: auto;
+      border-radius: 50%;
+      border: 1px solid $rose-neon-color;
+      width: 30px;
+      height: 30px;
+      position: relative;
+      transition: all 0.2s;
+      input[type='checkbox'] {
+        display: none;
+      }
+    }
+    button {
+      margin: auto;
+      padding: 20px;
+      cursor: pointer;
+      img {
+        width: 20px;
+        transform: rotate(45deg);
+        transition: all 0.2s;
+        &:hover {
+          filter: saturate(0.5);
+        }
+      }
+    }
+    &.undone {
+      input {
+        pointer-events: all;
+        &:hover {
+          transition: all 0.3s 0.2s;
+          cursor: pointer;
+          border-color: $secondary-color;
+        }
+        label {
+          border-color: $rose-neon-color;
+        }
+      }
+    }
+    &.done {
+      input {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+      label {
+        background-blend-mode: multiply;
+        border: $green-color;
+        background: $green-gradient;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('../../src/img/check.svg');
+          background-repeat: no-repeat;
+          background-size: 15px;
+          background-position: center center;
+        }
+      }
+    }
+  }
+}

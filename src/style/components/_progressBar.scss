@@ -1,0 +1,14 @@
+.progressBar {
+  min-height: 60px;
+  margin: 15px 0;
+  padding: 15px 0;
+  div {
+    border: 1px solid $background-color;
+    border-radius: '4px';
+    div {
+      height: 4px;
+      background: $green-gradient;
+      transition: all 0.2s;
+    }
+  }
+}

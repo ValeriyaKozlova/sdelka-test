@@ -10,9 +10,96 @@ const progressMessage = document.getElementById('progressMessage')
 const bar = document.getElementById('bar')
 const buttonDeleteAll = document.getElementById("buttonDeleteAll")
 const buttonCheckAll = document.getElementById("buttonCheckAll")
+const btnContainer = document.getElementById("btn-container")
 
-buttonDeleteAll.addEventListener('click', deleteAllToDo)
+// First check if there are some tods in the local storage
+if (toDoList) {
+  toDoList?.map((toDo, i) => {
+    addToDoElement(toDo, i)
+  })
+  btnContainer.classList.remove("d-none")
+  setProgressBar()
+  checkUnDoneTodo()
+} else {
+  createEmptyMessage()
+}
 
+// Add new todo 
+buttonSubmit.addEventListener('click', e => addToDo(e))
+
+// Generate unique id for new todo
+function generateId() {
+  return new Date().getTime()
+}
+
+function addToDo(e) {
+  e.preventDefault()
+  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  const newToDoValue = inputAddToDo.value.replace(/\s+/g, ' ').trim()
+  if (newToDoValue !== "") {
+    // Check if there is the same todo in the list
+    let isRepeat = false
+    if (toDoList) {
+      for (let i = 0; i < toDoList.length; i++) {
+        if (toDoList[i].content === newToDoValue) {
+          isRepeat = true
+          break
+        }
+      }
+      // Add new todo
+      if (!isRepeat) {
+        const len = toDoList.length
+        const newToDo = { _id: generateId(), content: newToDoValue, done: false }
+        toDoList.push(newToDo)
+        localStorage.setItem("toDoList", JSON.stringify(toDoList))
+        addToDoElement(newToDo, len)
+        setProgressBar()
+      } else {
+        alert('Такая задача уже есть в вашем списке')
+      }
+    } else {
+      // Delete message 
+      const emptyMessage = document.getElementById('emptyMessage')
+      if (emptyMessage) {
+        emptyMessage.remove()
+      }
+      const newToDo = { _id: generateId(), content: newToDoValue, done: false }
+      localStorage.setItem("toDoList", JSON.stringify([newToDo]))
+      addToDoElement(newToDo, 0)
+      btnContainer.classList.remove("d-none")
+      setProgressBar()
+    }
+    inputAddToDo.value = ""
+  } else {
+    alert('упс, похоже вы забыли добавить вашу задачу')
+  }
+}
+
+// Add a new HTML todo element
+function addToDoElement(toDo, i) {
+  const block = document.createElement("li");
+  block.id = toDo._id
+  block.setAttribute("draggable", true)
+  const input = document.createElement("input")
+  input.setAttribute("type", "text")
+  input.value = toDo.content
+  const check = document.createElement("input")
+  const label = document.createElement("label")
+  check.setAttribute("type", "checkbox")
+  label.append(check)
+  const button = document.createElement("button")
+  const deleteSvg = document.createElement("img")
+  deleteSvg.setAttribute("src", "./src/img/add.svg")
+  button.append(deleteSvg)
+  block.className = "toDoWrapper"
+  block.classList.add(toDo.done ? "done" : "undone")
+  block.append(label, input, button)
+  toDoContainer.appendChild(block)
+}
+
+
+// Progression bar
+// Calculate progression bar width
 function setProgressionWidth() {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   const len = toDoList.length
@@ -25,7 +112,7 @@ function setProgressionWidth() {
   const barWidth = (100 / len * done).toFixed(2)
   return { barWidth, done, len }
 }
-
+// Set progression bar
 function setProgressBar() {
   if (bar.classList.contains('d-none')) {
     bar.classList.remove('d-none')
@@ -36,6 +123,7 @@ function setProgressBar() {
   bar.style.width = `${barWidth}%`
 }
 
+// Filter todos: all - done - undone
 filter.addEventListener('change', function (e) {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   if (toDoList) {
@@ -55,7 +143,7 @@ filter.addEventListener('change', function (e) {
       activeToDoList[i].remove()
     }
     console.log(updToDos)
-    if (updToDos.length !== 0) {
+    if (updToDos.length) {
       document.getElementById("noTasksMessage")?.remove()
       updToDos.map((toDo, i) => {
         addToDoElement(toDo, i)
@@ -69,29 +157,8 @@ filter.addEventListener('change', function (e) {
     }
   }
 })
-// Функция для добавления to do элемента
-function addToDoElement(toDo, i) {
-  const block = document.createElement("li");
-  block.id = toDo._id
-  block.setAttribute("draggable", true)
-  const p = document.createElement("p")
-  p.innerText = toDo.content
-  const check = document.createElement("input")
-  check.setAttribute("type", "checkbox")
-  check.checked = toDo.done
-  const span = document.createElement("span")
-  span.innerText = (i + 1)
-  const img = document.createElement("img")
-  img.setAttribute("src", "./src/img/edit.png")
-  const button = document.createElement("button")
-  const deleteSvg = document.createElement("img")
-  deleteSvg.setAttribute("src", "./src/img/add.svg")
-  button.append(deleteSvg)
-  block.className = "toDoWrapper"
-  block.append(span, p, check, img, button)
-  toDoContainer.appendChild(block)
-}
 
+// Add message element if there is no any todos
 function createEmptyMessage() {
   const block = document.createElement("div");
   block.id = "emptyMessage"
@@ -101,76 +168,43 @@ function createEmptyMessage() {
   toDoContainer.appendChild(block)
 }
 
-if (toDoList) {
-  toDoList?.map((toDo, i) => {
-    addToDoElement(toDo, i)
-  })
-  buttonDeleteAll.classList.remove("d-none")
-  buttonCheckAll.classList.remove("d-none")
-  setProgressBar()
-} else {
-  createEmptyMessage()
-}
-
-function generateId() {
-  return new Date().getTime()
-}
-
-function addToDo(e) {
-  e.preventDefault()
-  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
-  const newToDoValue = inputAddToDo.value.replace(/\s+/g, ' ').trim()
-  if (newToDoValue !== "") {
-    // Проверка на повтор to do
-    let isRepeat = false
-    if (toDoList) {
-      for (let i = 0; i < toDoList.length; i++) {
-        if (toDoList[i].content === newToDoValue) {
-          isRepeat = true
-          break
-        }
+// TODO INTERACTION FUNCTIONS
+// Event listener on the parent element
+toDoContainer.addEventListener('click', function (e) {
+  const nodeName = e.target.nodeName
+  const parent = e.target.closest("li")
+  switch (nodeName) {
+    case "LABEL":
+      changeStatusDone(parent.id, e.target.className)
+      break
+    case "BUTTON":
+      deleteToDo(parent.id)
+      break
+    case "INPUT":
+      if (e.target.type === "text") {
+        editToDo(parent.id, e.target)
       }
-      // Добавление to do
-      if (!isRepeat) {
-        const len = toDoList.length
-        const newToDo = { _id: generateId(), content: newToDoValue, done: false }
-        toDoList.push(newToDo)
-        localStorage.setItem("toDoList", JSON.stringify(toDoList))
-        addToDoElement(newToDo, len)
-        setProgressBar()
-      } else {
-        alert('Такая задача уже есть в вашем списке')
-      }
-    } else {
-      // Удаляем сообщение об отсутствии to dos
-      const emptyMessage = document.getElementById('emptyMessage')
-      if (emptyMessage) {
-        emptyMessage.remove()
-      }
-      const newToDo = { _id: generateId(), content: newToDoValue, done: false }
-      localStorage.setItem("toDoList", JSON.stringify([newToDo]))
-      addToDoElement(newToDo, 0)
-      buttonDeleteAll.classList.remove("d-none")
-      buttonCheckAll.classList.remove("d-none")
-      setProgressBar()
-    }
-    inputAddToDo.value = ""
-  } else {
-    alert('упс, похоже вы забыли добавить вашу задачу')
+      break
   }
-}
+})
 
-buttonSubmit.addEventListener('click', e => addToDo(e))
-
-function changeStatusDone(id) {
+// Toggle done - undone status
+function changeStatusDone(id, className) {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  const parent = document.getElementById(id)
   const updToDos = toDoList.map(toDo => {
-    return toDo._id == id ? { ...toDo, done: !toDo.done } : toDo
+    return toDo._id == id ?
+      ({ ...toDo, done: !toDo.done }) :
+      toDo
   })
+  const c = (parent.classList.contains("done") ? "toDoWrapper undone" : "toDoWrapper done")
+  parent.className = c
   localStorage.setItem("toDoList", JSON.stringify(updToDos))
   setProgressBar()
+  checkUnDoneTodo()
 }
 
+// Delete one selected todo
 function deleteToDo(id) {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   const updToDos = toDoList.filter(toDo => toDo._id != id)
@@ -180,8 +214,7 @@ function deleteToDo(id) {
     localStorage.setItem("toDoList", JSON.stringify(updToDos))
     setProgressBar()
   } else {
-    buttonDeleteAll.classList.add("d-none")
-    buttonCheckAll.classList.add("d-none")
+    btnContainer.classList.add("d-none")
     createEmptyMessage()
     localStorage.clear()
     bar.classList.add('d-none')
@@ -189,68 +222,62 @@ function deleteToDo(id) {
   }
 }
 
-function openEditingWindow(id, el) {
-  el.className = "editing"
-  const parent = document.getElementById(id)
-  const p = parent.querySelector("p")
-  const input = document.createElement("input")
-  input.setAttribute("type", "text")
-  input.setAttribute("value", p.innerText)
-  parent.replaceChild(input, p)
-}
-
-function closeEditingWindow(id, el) {
-  el.classList.remove("editing")
-  const parent = document.getElementById(id)
-  const input = parent.querySelector("input")
-  const p = document.createElement("p")
-  p.innerText = input.value
-  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
-  const updToDos = toDoList.map(toDo => {
-    return toDo._id == id ? { ...toDo, content: input.value } : toDo
+// Edit todo
+function editToDo(id, el) {
+  el.addEventListener('blur', function (e) {
+    const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+    const updToDos = toDoList.map(toDo => {
+      return toDo._id == id ? { ...toDo, content: el.value } : toDo
+    })
+    localStorage.setItem("toDoList", JSON.stringify(updToDos))
   })
-  localStorage.setItem("toDoList", JSON.stringify(updToDos))
-  parent.replaceChild(p, input)
 }
 
+// Delete all todos
+buttonDeleteAll.addEventListener('click', deleteAllToDo)
 function deleteAllToDo() {
   const toDoList = Array.from(toDoContainer.querySelectorAll("li"))
   for (let i = 0; i < toDoList.length; i++) {
     setTimeout(function () {
+      toDoList[i].style.opacity = "0"
       toDoList[i].remove()
     }, i * 100)
   }
   localStorage.clear()
-  buttonDeleteAll.classList.add("d-none")
-  buttonCheckAll.classList.add("d-none")
+  btnContainer.classList.add("d-none")
   bar.classList.add('d-none')
   progressMessage.classList.add('d-none')
   createEmptyMessage()
 }
 
-toDoContainer.addEventListener('click', function (e) {
-  const nodeName = e.target.nodeName
-  const parent = e.target.closest("li")
-  switch (nodeName) {
-    case "INPUT":
-      if (e.target.type === "checkbox") {
-        changeStatusDone(parent.id)
-      }
-      break
-    case "BUTTON":
-      deleteToDo(parent.id)
-      break
-    case "IMG":
-      if (e.target.className === "editing") {
-        closeEditingWindow(parent.id, e.target)
-      } else {
-        openEditingWindow(parent.id, e.target)
-      }
-      break
+// Check all todos
+buttonCheckAll.addEventListener('click', checkAllToDo)
+function checkAllToDo() {
+  const toDoList = Array.from(toDoContainer.querySelectorAll("li"))
+  const toDoListLocal = JSON.parse(localStorage.getItem("toDoList"))
+  let updToDos = []
+  for (let i = 0; i < toDoList.length; i++) {
+    toDoList[i].className = "toDoWrapper done"
+    updToDos.push({ ...toDoListLocal[i], done: true })
   }
-})
+  localStorage.setItem("toDoList", JSON.stringify(updToDos))
+  buttonCheckAll.setAttribute("disabled", "disabled")
+}
 
-
+// Check if there is un done todos 
+function checkUnDoneTodo() {
+  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  let undone = 0
+  toDoList.forEach(toDo => {
+    if (!toDo.done) undone = undone + 1
+  })
+  if (!undone) {
+    buttonCheckAll.setAttribute("disabled", "disabled")
+  } else {
+    buttonCheckAll.removeAttribute("disabled")
+  }
+}
+// Drag & drop  functions
 toDoContainer.addEventListener("dragstart", (e) => {
   e.target.classList.add("selected")
 })
@@ -261,7 +288,6 @@ toDoContainer.addEventListener("dragend", (e) => {
   const toDoListlocal = JSON.parse(localStorage.getItem("toDoList"))
   let updToDos = []
   for (let i = 0; i < toDoList.length; i++) {
-    toDoList[i].querySelector('span').innerText = i + 1
     toDoListlocal.forEach(toDo => {
       if (toDo._id == toDoList[i].id) {
         updToDos.push(toDo)

@@ -1,0 +1,12 @@
+#todo-filter {
+  border: none;
+  color: $font-color;
+  padding: 10px;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+  option {
+    background: $green-color;
+  }
+}

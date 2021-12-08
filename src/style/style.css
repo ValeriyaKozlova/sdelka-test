@@ -8,14 +8,22 @@ body {
 }
 
 h1,
-h2,
-h3 {
+h2 {
   color: #fff;
+  margin: 15px;
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+h2 {
+  margin-top: 0;
 }
 
 header {
   background: linear-gradient(124deg, #ff4dbb 0%, #e6008e 100%);
-  padding: 15px;
+  padding: 30px 15px;
 }
 
 button {
@@ -55,25 +63,29 @@ input:focus {
   text-align: center;
 }
 
-.app .progressBar {
+.d-none {
+  display: none;
+}
+
+.progressBar {
   min-height: 60px;
   margin: 15px 0;
   padding: 15px 0;
 }
 
-.app .progressBar div {
+.progressBar div {
   border: 1px solid #faeefa;
   border-radius: '4px';
 }
 
-.app .progressBar div div {
+.progressBar div div {
   height: 4px;
   background: linear-gradient(124deg, #66ff00 0%, limegreen 100%);
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
 
-.app .formContainer {
+.formContainer {
   margin: 15px 0;
   display: -ms-grid;
   display: grid;
@@ -81,7 +93,7 @@ input:focus {
       grid-template-columns: 5fr 1fr;
 }
 
-.app .formContainer form {
+.formContainer form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -93,11 +105,11 @@ input:focus {
           justify-content: space-between;
 }
 
-.app .formContainer form #addToDo {
+.formContainer form #addToDo {
   width: 85%;
 }
 
-.app .formContainer form #addToDoSubmit {
+.formContainer form #addToDoSubmit {
   width: 40px;
   border-radius: 50%;
   display: -webkit-box;
@@ -112,68 +124,140 @@ input:focus {
   background: transparent;
 }
 
-.app .formContainer form #addToDoSubmit img {
+.formContainer form #addToDoSubmit img {
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
 
-.app .formContainer form #addToDoSubmit img:hover {
+.formContainer form #addToDoSubmit img:hover {
   -webkit-filter: invert(100%);
           filter: invert(100%);
 }
 
-.app #todo-filter {
+#todo-filter {
   border: none;
   color: #560238;
   padding: 10px;
   outline: none;
 }
 
-.app #todo-filter:focus {
+#todo-filter:focus {
   outline: none;
 }
 
-.app #todo-filter option {
+#todo-filter option {
   background: #32cd32;
 }
 
-.app #todos-list {
+#todos-list {
   padding-left: 0;
 }
 
-.app #todos-list .toDoWrapper {
+#todos-list .toDoWrapper {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 5fr 1fr 1fr 1fr;
-      grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
+  -ms-grid-columns: auto 1fr auto;
+      grid-template-columns: auto 1fr auto;
+  grid-gap: 15px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   background: #faeefa;
-  margin: 10px 5px;
+  margin: 10px 0;
   padding: 10px 15px;
   border-radius: 4px;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
 }
 
-.app #todos-list .toDoWrapper p {
-  text-align-last: left;
-  margin: 0;
-}
-
-.app #todos-list .toDoWrapper img {
+#todos-list .toDoWrapper img {
   width: 30px;
 }
 
-.app #todos-list .toDoWrapper input {
-  border-bottom: 1px solid #d281b5;
+#todos-list .toDoWrapper input {
+  text-align-last: left;
+  margin: 0;
+  border-bottom: 1px solid transparent;
+  -webkit-transition: all 0.3s 0s;
+  transition: all 0.3s 0s;
 }
 
-.app #todos-list .toDoWrapper button img {
+#todos-list .toDoWrapper label {
+  cursor: pointer;
+  margin: auto;
+  border-radius: 50%;
+  border: 1px solid #f40097;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+#todos-list .toDoWrapper label input[type='checkbox'] {
+  display: none;
+}
+
+#todos-list .toDoWrapper button {
+  margin: auto;
+  padding: 20px;
+  cursor: pointer;
+}
+
+#todos-list .toDoWrapper button img {
+  width: 20px;
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
-.app #btn-remove {
+#todos-list .toDoWrapper button img:hover {
+  -webkit-filter: saturate(0.5);
+          filter: saturate(0.5);
+}
+
+#todos-list .toDoWrapper.undone input {
+  pointer-events: all;
+}
+
+#todos-list .toDoWrapper.undone input:hover {
+  -webkit-transition: all 0.3s 0.2s;
+  transition: all 0.3s 0.2s;
+  cursor: pointer;
+  border-color: #d281b5;
+}
+
+#todos-list .toDoWrapper.undone input label {
+  border-color: #f40097;
+}
+
+#todos-list .toDoWrapper.done input {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+#todos-list .toDoWrapper.done label {
+  background-blend-mode: multiply;
+  border: #32cd32;
+  background: linear-gradient(124deg, #66ff00 0%, limegreen 100%);
+  position: relative;
+}
+
+#todos-list .toDoWrapper.done label::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../src/img/check.svg");
+  background-repeat: no-repeat;
+  background-size: 15px;
+  background-position: center center;
+}
+
+#btn-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -182,7 +266,7 @@ input:focus {
           justify-content: flex-end;
 }
 
-.app #btn-remove button {
+#btn-container button {
   display: inline-block;
   padding: 10px 15px;
   width: -webkit-fit-content;
@@ -198,37 +282,42 @@ input:focus {
   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out, -webkit-box-shadow 300ms ease-in-out;
 }
 
-.app #btn-remove button:hover {
+#btn-container button:hover {
   color: #fff;
 }
 
-.app #btn-remove button.d-none {
+#btn-container button.d-none {
   display: none;
 }
 
-.app #btn-remove button#buttonCheckAll {
+#btn-container button#buttonCheckAll {
   border: 1px solid #32cd32;
   color: #32cd32;
 }
 
-.app #btn-remove button#buttonCheckAll:hover {
+#btn-container button#buttonCheckAll:hover {
   -webkit-box-shadow: 0 0 40px 40px #32cd32 inset;
           box-shadow: 0 0 40px 40px #32cd32 inset;
   color: #fff;
 }
 
-.app #btn-remove button#buttonDeleteAll {
+#btn-container button#buttonCheckAll:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+#btn-container button#buttonDeleteAll {
   border: 1px solid #560238;
   color: #560238;
 }
 
-.app #btn-remove button#buttonDeleteAll:hover {
+#btn-container button#buttonDeleteAll:hover {
   -webkit-box-shadow: 0 0 40px 40px #560238 inset;
           box-shadow: 0 0 40px 40px #560238 inset;
   color: #fff;
 }
 
-.d-none {
+#btn-container.d-none {
   display: none;
 }
 /*# sourceMappingURL=style.css.map */

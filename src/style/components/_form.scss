@@ -1,0 +1,29 @@
+.formContainer {
+  margin: 15px 0;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  form {
+    display: flex;
+    border-bottom: 1px solid $secondary-color;
+    margin-right: 15px;
+    padding: 0px 15px;
+    justify-content: space-between;
+    #addToDo {
+      width: 85%;
+    }
+    #addToDoSubmit {
+      width: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      img {
+        transition: all 0.2s;
+        &:hover {
+          filter: invert(100%);
+        }
+      }
+    }
+  }
+}
