@@ -2,6 +2,15 @@
   margin: 15px 0;
   display: grid;
   grid-template-columns: 5fr 1fr;
+  #todo-filter {
+    border: none;
+    color: $font-color;
+    padding: 10px;
+    outline: none;
+    &:focus {
+      outline: none;
+    }
+  }
   form {
     display: flex;
     border-bottom: 1px solid $secondary-color;
@@ -24,6 +33,20 @@
           filter: invert(100%);
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .formContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    #todo-filter {
+      border-bottom: 1px solid $secondary-color;
+      margin-bottom: 10px;
+    }
+    .form {
+      margin-right: 0;
     }
   }
 }

@@ -45,6 +45,9 @@ input {
   &:focus {
     outline: none;
   }
+  &:-webkit-autofill {
+    background: transparent;
+  }
 }
 .container {
   max-width: 800px;
@@ -58,6 +61,17 @@ input {
 
 @import './components/progressBar';
 @import './components/form';
-@import './components/filter';
 @import './components/todolist';
 @import './components/buttonsContainer';
+
+@media screen and (max-width: 767px) {
+  h1 {
+    font-size: 1.5em;
+  }
+  h2 {
+    font-size: 1em;
+  }
+  header {
+    padding: 20px 10px;
+  }
+}
