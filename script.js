@@ -5,7 +5,31 @@ const toDoContainer = document.getElementById('todos-list')
 const checkInputs = toDoContainer.getElementsByTagName("input")
 const btnRemoveAllContainer = document.getElementById("btn-remove")
 const filter = document.getElementById('todo-filter')
+const progressBar = document.getElementById('progressBar')
+const progressMessage = document.getElementById('progressMessage')
+const bar = document.getElementById('bar')
 
+function setProgressionWidth() {
+  const toDoList = JSON.parse(localStorage.getItem("toDoList"))
+  const len = toDoList.length
+  let done = 0
+  let unDone = 0
+  toDoList.forEach(toDo => {
+    return toDo.done ? (done = done + 1) : (unDone = unDone + 1)
+  }
+  )
+  const barWidth = (100 / len * done).toFixed(2)
+  return { barWidth, done, len }
+}
+
+function setProgressBar() {
+  if (progressBar.classList.contains('d-none')) {
+    progressBar.classList.remove('d-none')
+  }
+  const { barWidth, done, len } = setProgressionWidth()
+  progressMessage.innerText = `Вы выполнили ${done} из ${len} задач`
+  bar.style.width = `${barWidth}%`
+}
 
 filter.addEventListener('change', function (e) {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
@@ -21,13 +45,23 @@ filter.addEventListener('change', function (e) {
       default:
         updToDos = toDoList
     }
-    const activeToDoList = Array.from(toDoContainer.querySelectorAll("div"))
+    const activeToDoList = Array.from(toDoContainer.querySelectorAll("li"))
     for (let i = 0; i < activeToDoList.length; i++) {
       activeToDoList[i].remove()
     }
-    updToDos.map((toDo, i) => {
-      addToDoElement(toDo, i)
-    })
+    console.log(updToDos)
+    if (updToDos.length !== 0) {
+      document.getElementById("noTasksMessage")?.remove()
+      updToDos.map((toDo, i) => {
+        addToDoElement(toDo, i)
+      })
+    } else {
+      const type = e.target.value === "done" ? "выполненных" : "невыполненных"
+      const p = document.createElement("p")
+      p.setAttribute("id", "noTasksMessage")
+      p.innerText = `У вас нет ${type} задач`
+      toDoContainer.append(p)
+    }
   }
 })
 // Функция для добавления to do элемента
@@ -74,6 +108,7 @@ if (toDoList) {
     addToDoElement(toDo, i)
   })
   createButtonDeleteAll()
+  setProgressBar()
 } else {
   createEmptyMessage()
 }
@@ -82,7 +117,8 @@ function generateId() {
   return new Date().getTime()
 }
 
-function addToDo() {
+function addToDo(e) {
+  e.preventDefault()
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
   const newToDoValue = inputAddToDo.value.replace(/\s+/g, ' ').trim()
   if (newToDoValue !== "") {
@@ -102,6 +138,7 @@ function addToDo() {
         toDoList.push(newToDo)
         localStorage.setItem("toDoList", JSON.stringify(toDoList))
         addToDoElement(newToDo, len)
+        setProgressBar()
       } else {
         alert('Такая задача уже есть в вашем списке')
       }
@@ -115,7 +152,7 @@ function addToDo() {
       localStorage.setItem("toDoList", JSON.stringify([newToDo]))
       addToDoElement(newToDo, 0)
       createButtonDeleteAll()
-
+      setProgressBar()
     }
     inputAddToDo.value = ""
   } else {
@@ -123,7 +160,7 @@ function addToDo() {
   }
 }
 
-buttonSubmit.addEventListener('click', addToDo)
+buttonSubmit.addEventListener('click', e => addToDo(e))
 
 function changeStatusDone(id) {
   const toDoList = JSON.parse(localStorage.getItem("toDoList"))
@@ -131,7 +168,7 @@ function changeStatusDone(id) {
     return toDo._id == id ? { ...toDo, done: !toDo.done } : toDo
   })
   localStorage.setItem("toDoList", JSON.stringify(updToDos))
-  console.log(updToDos)
+  setProgressBar()
 }
 
 function deleteToDo(id) {
@@ -141,10 +178,12 @@ function deleteToDo(id) {
   deletedToDo?.remove()
   if (updToDos.length !== 0) {
     localStorage.setItem("toDoList", JSON.stringify(updToDos))
+    setProgressBar()
   } else {
     document.getElementById("deleteAllButton").remove()
     createEmptyMessage()
     localStorage.clear()
+    progressBar.classList.add('d-none')
   }
 }
 
@@ -181,6 +220,7 @@ function deleteAllToDo() {
   }
   localStorage.clear()
   document.getElementById("deleteAllButton").remove()
+  progressBar.classList.add('d-none')
   createEmptyMessage()
 }
 

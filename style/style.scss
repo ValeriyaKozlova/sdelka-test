@@ -7,28 +7,75 @@ body {
   color: $font-color;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: $header-color;
 }
 
+button {
+  height: 40px;
+  background: $header-color;
+  border: none;
+  border-radius: 4px;
+  color: $white-color;
+  cursor: pointer;
+}
+
+input {
+  height: 30px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid $secondary-color;
+  &:focus {
+    outline: none;
+  }
+}
 .container {
-  max-width: 1170px;
+  max-width: 800px;
   margin: auto;
   padding: 0 10px;
   text-align: center;
 }
 
 .app {
-  #todos-list {
-    .toDoWrapper {
+  .progressBar {
+    &.d-none {
+      display: none;
+    }
+    div {
+      border: 1px solid $secondary-color;
       div {
-        display: grid;
-        grid-template-columns: 4fr 1fr 1fr 1fr;
-        img {
-          width: 30px;
-        }
+        height: 4px;
+        background: $header-color;
+        transition: all 0.2s;
       }
+    }
+  }
+  .formContainer {
+    margin: 15px 0;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    form {
+      display: flex;
+      #addToDo {
+        width: 90%;
+      }
+    }
+  }
 
+  #todos-list {
+    padding-left: 0;
+    .toDoWrapper {
+      display: grid;
+      grid-template-columns: 1fr 5fr 1fr 1fr 1fr;
+      align-items: center;
+      p {
+        text-align-last: left;
+      }
+      img {
+        width: 30px;
+      }
     }
   }
 }

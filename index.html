@@ -21,9 +21,17 @@
 <main>
   <section>
     <div class="container app">
-      <div class="form">
-        <input placeholder="Ведите дело" type="text" id="addToDo" />
-        <input type="submit" value="Добавить" id="addToDoSubmit" />
+      <div id="progressBar" class="progressBar">
+        <p id="progressMessage"></p>
+        <div>
+          <div id="bar"></div>
+        </div>
+      </div>
+      <div class="formContainer">
+        <form class="form">
+          <input placeholder="Ведите дело" type="text" id="addToDo" />
+          <button type="submit" id="addToDoSubmit">Добавить</button>
+        </form>
         <select id="todo-filter">
           <option value="all">Все</option>
           <option value="notDone">Не выполненные</option>
